@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Book List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Add any additional CSS styles here -->
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+   
+    <h1>Books</h1>
+    <h2 th:inline="text">
+      
+    </h2>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publication Year</th>
+            <th>ISBN</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th></th> <!-- Placeholder for buttons -->
+            <th></th> <!-- Placeholder for buttons -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.publicationYear}"></td>
+            <td th:text="${book.isbn}"></td>
+            <td th:text="${book.price}"></td>
+            <td th:text="${book.category.name}"></td>
+            <!-- Delete Button -->
+            <td>
+                <a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a>
+            </td>
+            <td>
+                <a th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success">
+        <a href="/add">Add book</a>
+    </button>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Book</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Add Book</h1>
+    <div>
+    <form th:action="@{/save}" method="post">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="title" required />
+        <br />
+        <label for="author">Author</label>
+        <input class="form-control" type="text" id="author" name="author" required />
+        <br />
+        <label for="publicationYear">Publication Year</label>
+        <input class="form-control" type="number" id="publicationYear" name="publicationYear" required />
+        <br />
+        <label for="isbn">ISBN</label>
+        <input class="form-control" type="text" id="isbn" name="isbn" required />
+        <br />
+        <label for="price">Price</label>
+        <input class="form-control" type="number" id="price" name="price" step="0.01" required />
+        <br />
+        <label for="category">Category:</label>
+		<select id="category" name="category.id">
+   		<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+		</select>
+
+        <input class="btn btn-success" type="submit" value="Save" />
+    </form>
+    </div>
+    </div>
+</body>
+</html>

@@ -18,42 +18,13 @@ import fi.haagahelia.course.domain.Book;
 import fi.haagahelia.course.domain.BookRepository;
 import fi.haagahelia.course.domain.CategoryRepository;
 
-@RestController
+@Controller
 public class BookController {
 	@Autowired
 	private BookRepository repository; 
     @Autowired
     private CategoryRepository categoryRepository;
     
-    @RequestMapping(value= {"/", "/api/books"})
-    public List<Book> getAllBooks() {
-    	Iterable<Book> bookIterable = repository.findAll();
-        List<Book> books = new ArrayList<>();
-    	bookIterable.forEach(books::add);
-
-        books.forEach(book -> {
-            book.setCategory(null); 
-        });
-
-        return books;
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-        Optional<Book> optionalBook = repository.findById(id);
-        
-        if (optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-            book.setCategory(null);
-            
-            return ResponseEntity.ok(book);
-        } else {
-            // Handle book not found error here
-            // You can throw an exception or return a specific response
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-	
     @RequestMapping(value= {"/", "/booklist"})
     public String studentList(Model model) {	
         model.addAttribute("books", repository.findAll());
@@ -78,5 +49,10 @@ public class BookController {
     	repository.deleteById(id);
         return "redirect:../booklist";
     }     
+    @RequestMapping(value = "/edit/{id}")
+    public String editBook(@PathVariable("id") Long bookId, Model model) {
+        model.addAttribute("book", repository.findById(bookId));
+        return "editbook";
+    }
    
 }

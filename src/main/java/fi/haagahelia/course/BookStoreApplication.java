@@ -8,10 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import fi.haagahelia.course.domain.AppUser;
 import fi.haagahelia.course.domain.Book;
 import fi.haagahelia.course.domain.Category;
 import fi.haagahelia.course.domain.BookRepository;
 import fi.haagahelia.course.domain.CategoryRepository;
+import fi.haagahelia.course.domain.UserRepository;
 
 
 @SpringBootApplication
@@ -26,7 +28,7 @@ public class BookStoreApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(BookRepository bookRepository, CategoryRepository categoryRepository) {
+    public CommandLineRunner demo(BookRepository bookRepository, CategoryRepository categoryRepository, UserRepository userRepository ) {
         return (args) -> {
             log.info("Saving a couple of categories");
             categoryRepository.save(new Category("Fiction"));
@@ -44,6 +46,14 @@ public class BookStoreApplication {
             for (Book book : bookRepository.findAll()) {
                 log.info(book.toString());
             }
+            AppUser user1 = new AppUser("user1", "password1", "user1@example.com", "ROLE_USER");
+            AppUser user2 = new AppUser("user2", "password2", "user2@example.com", "ROLE_USER");
+            AppUser admin = new AppUser("admin", "admin123", "admin@example.com", "ROLE_ADMIN");
+
+            userRepository.save(user1);
+            userRepository.save(user2);
+            userRepository.save(admin);
+
         };
     }
 }
